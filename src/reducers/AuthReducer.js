@@ -1,14 +1,16 @@
 import { 
     EMAIL_CHANGED, 
     PASSWORD_CHANGED,
-    LOGIN_USER_SUCCESS 
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_FAIL 
 } from '../actions/types';
 
 // Set default state to handle undefine state (state reducer can't be undefine) and action to
 const INITIAL_STATE = { 
     email: '', 
     password: '',
-    user: null 
+    user: null,
+    error: '' 
 };
 
 // Funtion for check all state with type and take an action
@@ -21,6 +23,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, password: action.payload }
         case LOGIN_USER_SUCCESS:
             return { ...state, user: action.payload }
+        case LOGIN_USER_FAIL:
+            return { ...state, error: 'Authentication Failed', password: '' }
         default:
             return state;
     }

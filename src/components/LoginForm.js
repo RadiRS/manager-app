@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { Card, CardSection, Input, Button } from './common';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
@@ -19,7 +20,7 @@ class LoginForm extends Component {
     onButtonPress() {
         // Destruction
         const { email, password } = this.props;
-        
+
         this.props.loginUser({ email, password });
     }
 
@@ -46,6 +47,10 @@ class LoginForm extends Component {
                     />
                 </CardSection>
 
+                <Text style={styles.errorTextStyle}> 
+                    {this.props.error} 
+                </Text>
+
                 <CardSection>
                     <Button onPress={this.onButtonPress.bind(this)}>
                         Login
@@ -57,14 +62,19 @@ class LoginForm extends Component {
 }
 
 // Function for take piece of state and parsing to props to store to the component
-const mapStateToProps = state => {
-    // Destruction
-    const { auth } = state;
+const mapStateToProps = ({ auth }) => {
+    // Refactor
+    const { email, password, error } = auth;
+    
+    return { email, password, error };
+};
 
-    return {
-        email: auth.email,
-        password: auth.password
-    };
+const styles = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
+    }
 };
 
 // Export component to use in main.js & connect the actions to take new spesific state to export in to component
