@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import { Card, CardSection, Input, Button } from './common';
 import { connect } from 'react-redux';
-import { emailChanged } from '../actions';
+import { emailChanged, passwordChanged } from '../actions';
 
 // Create component loing form to display input & button
 class LoginForm extends Component {
+
     // Method to check user input the email
     onEmailChange(text) {
         this.props.emailChanged(text);
     }
 
+    // Method to check user input the password
+    onPasswordChange(text) {
+        this.props.passwordChanged(text);
+    }
+
+    // Display component in the screen
     render() {
         return (
             <Card>
@@ -27,6 +34,8 @@ class LoginForm extends Component {
                         secureTextEntry
                         label="Password"
                         placeholder="password"
+                        onChangeText={this.onPasswordChange.bind(this)}
+                        value={this.props.password}
                     />
                 </CardSection>
 
@@ -40,13 +49,17 @@ class LoginForm extends Component {
 
 // Function for take piece of state and parsing to props to store to the component
 const mapStateToProps = state => {
+    // Destruction
+    const { auth } = state;
+
     return {
-        email: state.auth.email
+        email: auth.email,
+        password: auth.password
     };
 };
 
 // Export component to use in main.js & connect the actions to take new spesific state to export in to component
 export default connect(
     mapStateToProps,
-    { emailChanged }
+    { emailChanged, passwordChanged }
 )(LoginForm);
