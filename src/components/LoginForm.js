@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Card, CardSection, Input, Button } from './common';
+import { connect } from 'react-redux';
+import { emailChanged } from '../actions';
 
 // Create component loing form to display input & button
 class LoginForm extends Component {
-  onEmailChange(text) {
-      
-  }
 
+  // Method to check user input the email
+  onEmailChange(text) {
+    this.props.emailChanged(text);
+  }
 
   render() {
     return (
@@ -31,5 +34,8 @@ class LoginForm extends Component {
   }
 }
 
-// Export component to use in main.js
-export default LoginForm;
+// Export component to use in main.js & connect the actions
+export default connect(
+  null,
+  { emailChanged }
+)(LoginForm);
