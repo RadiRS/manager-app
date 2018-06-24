@@ -3,7 +3,8 @@ import {
     EMAIL_CHANGED, 
     PASSWORD_CHANGED, 
     LOGIN_USER_SUCCESS, 
-    LOGIN_USER_FAIL 
+    LOGIN_USER_FAIL,
+    LOGIN_USER 
 } from './types';
 
 // Actions create when user type email input
@@ -25,6 +26,8 @@ export const passwordChanged = text => {
 // Actions to log in when user press login button and make request to firebase server and make acount with new user
 export const loginUser = ({ email, password }) => {
     return dispatch => {
+        dispatch({ type: LOGIN_USER });
+
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input, Button, Spinner } from './common';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 
@@ -22,6 +22,16 @@ class LoginForm extends Component {
         const { email, password } = this.props;
 
         this.props.loginUser({ email, password });
+    }
+
+    // Method for display or not button when user tab the button and loading
+    renderButton() {
+        if (this.props.loading) {
+            return <Spinner size="large" />;
+        }
+        return (
+            <Button onPress={this.onButtonPress.bind(this)}>Login</Button>
+        );
     }
 
     // Display component in the screen
@@ -47,15 +57,9 @@ class LoginForm extends Component {
                     />
                 </CardSection>
 
-                <Text style={styles.errorTextStyle}> 
-                    {this.props.error} 
-                </Text>
+                <Text style={styles.errorTextStyle}>{this.props.error}</Text>
 
-                <CardSection>
-                    <Button onPress={this.onButtonPress.bind(this)}>
-                        Login
-                    </Button>
-                </CardSection>
+                <CardSection>{this.renderButton()}</CardSection>
             </Card>
         );
     }
@@ -64,9 +68,9 @@ class LoginForm extends Component {
 // Function for take piece of state and parsing to props to store to the component
 const mapStateToProps = ({ auth }) => {
     // Refactor
-    const { email, password, error } = auth;
-    
-    return { email, password, error };
+    const { email, password, error, loading } = auth;
+
+    return { email, password, error, loading };
 };
 
 const styles = {
